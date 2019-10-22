@@ -19,9 +19,9 @@
 
 
   {% if title %}
-  <title>Django Blog - {{ title }}</title>
+  <title>Recipe Blog - {{ title }}</title>
   {% else %}
-  <title>Django Blog</title>
+  <title>Recipe Blog</title>
   {% endif %}
 </head>
 
@@ -64,14 +64,16 @@
 
       </div>
       <!-- Navbar Right Side -->
-      <div class="navbar-nav">
-        <a class="nav-item nav-link" href="{% url 'recipe-blog-home' %}"><i class="fa fa-home"></i></a>
-        <a class="nav-item nav-link" href="{% url 'recipe-blog-about' %}">About</a>
-        <a class="nav-item nav-link" href="#">Login</a>
-        <a class="nav-item nav-link" href="#">Register</a>
+      <div class="navbar-nav ml-auto">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" class="navbar-brand mx-auto" href="{% url 'recipe-blog-home' %}"><i
+              class="fa fa-home"></i></a>
+          <a class="nav-item nav-link" href="{% url 'recipe-blog-about' %}">About</a>
+          <a class="nav-item nav-link" href="#">Login</a>
+          <a class="nav-item nav-link" href="#">Register</a>
+        </div>
       </div>
-      </div>
-      </div>
+
     </nav>
   </header>
 
