@@ -12,3 +12,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.recipe
+
+    def get_absolute_url(self):
+        return reverse('recipe-blog-home')
