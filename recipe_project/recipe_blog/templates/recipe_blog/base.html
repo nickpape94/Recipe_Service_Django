@@ -37,7 +37,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarToggle">
+        <!-- <div class="collapse navbar-collapse" id="navbarToggle">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,15 +49,15 @@
               <a class="dropdown-item" href="#">Thai</a>
             </div>
 
-          </div>
-          <div class="container">
-            <form action="/action_page.php">
-              <input type="text" placeholder="Search recipe or user..." name="search">
-              <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
-          </div>
-
+          </div> -->
+        <div class="col-sm-6 col-sm-offset-3">
+          <form method='GET' action="{% url 'search' %}">
+            <input type="text" name='q' placeholder="Search recipe or user..." value="{{ request.GET.q }}">
+            <input type='submit' value='Search' />
+          </form>
         </div>
+
+      </div>
 
 
 

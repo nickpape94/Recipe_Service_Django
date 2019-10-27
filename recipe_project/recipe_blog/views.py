@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -17,12 +18,23 @@ def home(request):
     return render(request, 'recipe_blog/home.html', context)
 
 
+def search(request):
+    template = 'recipe_blog/user_posts.html'
+
+    query = request.GET.get('q')
+
+    results = Post.objects.filter(
+        Q(recipe__icontains=query) | Q(description__icontains=query))
+
+    return render(request, template)
+
+
 class PostListView(ListView):
     model = Post
     template_name = 'recipe_blog/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 6
+    paginate_by = 5
 
 
 class UserPostListView(ListView):
