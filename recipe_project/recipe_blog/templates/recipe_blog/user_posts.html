@@ -5,7 +5,7 @@
 {% for post in posts %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'recipe_blog/main.css %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'recipe_blog/main.css' %}">
 </head>
 
 <div class="NonOverflow">
@@ -17,7 +17,8 @@
                 <small class="text-muted">{{ post.date_posted }}</small>
             </div>
 
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.recipe }}</a></h2>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.recipe }} -
+                    ({{ post.cuisine }})</a></h2>
             <p class="article-content">{{ post.description }}</p>
         </div>
     </article>
