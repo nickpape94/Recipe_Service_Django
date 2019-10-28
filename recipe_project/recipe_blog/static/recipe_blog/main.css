@@ -84,6 +84,18 @@ body {
   }
 
   #home {
-    width: 20px;
-    height: 20px;
+    width: 200px;
+    height: 200px;
   }
+
+  #article {
+    width: auto;
+    height: auto;
+  }
+
+    
+  #NonOverflow {
+    
+    overflow: auto;
+}  
+  

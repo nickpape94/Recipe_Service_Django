@@ -2,18 +2,27 @@
 {% block content %}
 {% for post in posts %}
 
-<article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-    <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-            <small class="text-muted">{{ post.date_posted }}</small>
-        </div>
-        <img class="img-responsive" src="{{ post.image.url }}">
-        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.recipe }}</a></h2>
-        <p class="article-content">{{ post.description }}</p>
+
+
+
+
+<div class="grid">
+    <!-- <link rel="stylesheet" href="{{ STATIC_URL }}style.css"> -->
+    <div class="module">
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                    <small class="text-muted">{{ post.date_posted }}</small>
+                </div>
+                <img class="img-responsive" src="{{ post.image.url }}">
+                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.recipe }}</a></h2>
+                <p class="article-content">{{ post.description }}</p>
+            </div>
+        </article>
     </div>
-</article>
+</div>
 
 {% endfor %}
 

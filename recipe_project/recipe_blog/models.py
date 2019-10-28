@@ -5,11 +5,24 @@ from django.urls import reverse
 from PIL import Image
 
 
+CUISINE_CHOICES = (
+    ('African', 'AFRICAN'),
+    ('american', 'AMERICAN'),
+    ('british', 'BRITISH'),
+    ('caribbean', 'CARIBBEAN'),
+    ('chinese', 'CHINESE'),
+)
+
+
 class Post(models.Model):
     image = models.ImageField(
         default='default_dinner.jpg', upload_to='media/recipe_pics')
     recipe = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
+    cuisine = models.CharField(
+        max_length=50, choices=CUISINE_CHOICES, default='chinese')
+    ingredients = models.CharField(max_length=1000)
+    method = models.CharField(max_length=1000)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
