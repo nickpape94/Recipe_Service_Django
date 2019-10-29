@@ -25,6 +25,21 @@
   {% endif %}
 </head>
 
+<style type="text/css">
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+
+    .search-bar {
+      max-width: 500px;
+      width: 100%;
+    }
+
+
+  }
+</style>
+
 <body>
 
   <!-- Navbar -->
@@ -50,9 +65,11 @@
             </div>
 
           </div> -->
+
+
         <div class="col-sm-6 col-sm-offset-3">
-          <form method='GET' action="{% url 'search' %}">
-            <input type="text" name='q' placeholder="Search recipe or user..." value="{{ request.GET.q }}">
+          <form method='GET'>
+            <input type="text" name='q' id="id_q" placeholder="Search recipe or user..." value="{{ request.GET.q }}">
             <input type='submit' value='Search' />
           </form>
         </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -18,15 +18,29 @@ def home(request):
     return render(request, 'recipe_blog/home.html', context)
 
 
-def search(request):
-    template = 'recipe_blog/user_posts.html'
+# def search(request):
+#     template = 'recipe_blog/user_posts.html'
 
-    query = request.GET.get('q')
+#     query = request.GET.get('q')
 
-    results = Post.objects.filter(
-        Q(recipe__icontains=query) | Q(description__icontains=query))
+#     results = Post.objects.filter(
+#         Q(recipe__icontains=query) | Q(description__icontains=query))
 
-    return render(request, template)
+#     return render(request, template)
+
+
+def search(query=None):
+    queryset = []
+    queries = query.split(" ")
+    for q in queries:
+        posts = Post.objects.filter(
+            Q(recipe__icontains=q) |
+            Q(cuisine__icontains=q)
+        ).distinct()
+
+        for post in posts:
+            queryset.append(post)
+    return list(set(queryset))
 
 
 class PostListView(ListView):

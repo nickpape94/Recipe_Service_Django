@@ -16,13 +16,13 @@ CUISINE_CHOICES = (
 
 class Post(models.Model):
     image = models.ImageField(
-        default='default_dinner.jpg', upload_to='media/recipe_pics')
+        default='default_dinner.jpg', upload_to='media/recipe_pics', blank=True)
     recipe = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     cuisine = models.CharField(
-        max_length=50, choices=CUISINE_CHOICES, default='chinese')
-    ingredients = models.CharField(max_length=1000)
-    method = models.CharField(max_length=1000)
+        max_length=50, choices=CUISINE_CHOICES, default='chinese', blank=True)
+    ingredients = models.TextField(unique=True)
+    method = models.TextField(unique=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
