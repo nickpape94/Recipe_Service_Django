@@ -18,16 +18,19 @@
             {% endif %}
         </div>
         <div>
-
             <img class="img-responsive" src="{{ post.image.url }}">
+
             <h4>Description</h4>
-            <p class="article-content">{{ object.description }}</p>
+            <p class=" article-content">{{ object.description }}</p>
             <h4>Ingredients</h4>
-            <pre style="white-space:pre-wrap>
-                <p class=" article-ingredients">{{ object.ingredients}}</p>
-            </pre>
+            <pre style="white-space:pre-wrap">
+                    <p class=" article-ingredients">{{ object.ingredients}}</p>
+                </pre>
             <h4>Cooking method</h4>
-            <p class="article-method">{{ object.method }}</p>
+            <pre style="white-space:pre-wrap">
+                <p class="article-method">{{ object.method }}</p>
+                </pre>
+
         </div>
     </div>
 </article>

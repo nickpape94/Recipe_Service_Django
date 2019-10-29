@@ -7,20 +7,21 @@ from PIL import Image
 
 CUISINE_CHOICES = (
     ('African', 'AFRICAN'),
-    ('american', 'AMERICAN'),
-    ('british', 'BRITISH'),
-    ('caribbean', 'CARIBBEAN'),
-    ('chinese', 'CHINESE'),
+    ('American', 'AMERICAN'),
+    ('British', 'BRITISH'),
+    ('Caribbean', 'CARIBBEAN'),
+    ('Chinese', 'CHINESE'),
+    ('Other', 'OTHER')
 )
 
 
 class Post(models.Model):
-    image = models.ImageField(
-        default='default_dinner.jpg', upload_to='media/recipe_pics', blank=True)
+    image = models.ImageField(default='no_photo.jpg',
+                              upload_to='media/recipe_pics', blank=True)
     recipe = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     cuisine = models.CharField(
-        max_length=50, choices=CUISINE_CHOICES, default='chinese', blank=True)
+        max_length=50, choices=CUISINE_CHOICES, default='Other')
     ingredients = models.TextField(unique=True)
     method = models.TextField(unique=True)
     date_posted = models.DateTimeField(default=timezone.now)
