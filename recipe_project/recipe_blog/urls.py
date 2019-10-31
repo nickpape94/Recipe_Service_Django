@@ -7,13 +7,12 @@ from .views import (PostListView,
                     PostUpdateView,
                     PostDeleteView,
                     UserPostListView,
-                    search)
+                    SearchView)
 from . import views
 
 urlpatterns = [
     path('', PostListView.as_view(), name="recipe-blog-home"),
-    path('user/<str:username>', UserPostListView.as_view(),
-         name="search"),
+    path('search/<str:recipe>', SearchView.as_view(), name="search"),
     path('user/<str:username>', UserPostListView.as_view(), name="user-posts"),
     path('post/<int:pk>/', PostDetailView.as_view(), name="post-detail"),
     path('post/new/', PostCreateView.as_view(), name='post-create'),

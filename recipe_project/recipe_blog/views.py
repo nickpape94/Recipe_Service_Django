@@ -1,3 +1,4 @@
+from itertools import chain
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -7,8 +8,9 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView)
-from .models import Post
+    DeleteView
+)
+from .models import Post, PostQuerySet, PostManager
 
 
 def home(request):
@@ -18,29 +20,27 @@ def home(request):
     return render(request, 'recipe_blog/home.html', context)
 
 
-# def search(request):
-#     template = 'recipe_blog/user_posts.html'
+class SearchView(ListView):
+    template_name = "recipe_blog/search_posts.html"
+    count = 0
 
-#     query = request.GET.get('q')
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
 
-#     results = Post.objects.filter(
-#         Q(recipe__icontains=query) | Q(description__icontains=query))
+    def get_queryset(self):
+        request = self.request
+        query = request.GET.get('q', None)
+        if query is not None:
+            post_results = Post.objects.search(query=query)
 
-#     return render(request, template)
-
-
-def search(query=None):
-    queryset = []
-    queries = query.split(" ")
-    for q in queries:
-        posts = Post.objects.filter(
-            Q(recipe__icontains=q) |
-            Q(cuisine__icontains=q)
-        ).distinct()
-
-        for post in posts:
-            queryset.append(post)
-    return list(set(queryset))
+            qs = sorted(post_results,
+                        key=lambda instance: instance.pk,
+                        reverse=True)
+            self.count = len(qs)
+            return qs
+        return Post.objects.none()
 
 
 class PostListView(ListView):

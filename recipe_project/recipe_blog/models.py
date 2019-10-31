@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
+from django.conf import settings
+from django.db.models import Q
+from users.models import Profile
 
 
 CUISINE_CHOICES = (
@@ -13,6 +16,25 @@ CUISINE_CHOICES = (
     ('Chinese', 'CHINESE'),
     ('Other', 'OTHER')
 )
+
+
+class PostQuerySet(models.QuerySet):
+    def search(self, query=None):
+        qs = self
+        if query is not None:
+            or_lookup = (Q(recipe__icontains=query) |
+                         Q(cuisine__icontains=query)
+                         )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        return self.get_queryset().search(query=query)
 
 
 class Post(models.Model):
@@ -26,6 +48,8 @@ class Post(models.Model):
     method = models.TextField(unique=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = PostManager()
 
     def __str__(self):
         return self.recipe
