@@ -1,6 +1,8 @@
 from itertools import chain
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -10,7 +12,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post, PostQuerySet, PostManager
+from .models import Post
 
 
 def home(request):
@@ -20,27 +22,26 @@ def home(request):
     return render(request, 'recipe_blog/home.html', context)
 
 
-class SearchView(ListView):
-    template_name = "recipe_blog/search_posts.html"
-    count = 0
+class SearchListView(ListView):
+    model = Post
+    template_name = 'recipe_blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+    paginate_by = 5
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['count'] = self.count or 0
-        context['query'] = self.request.GET.get('q')
+    # def get_template_names(self):
+    #     return ['recipe_blog/post_list.html']
 
     def get_queryset(self):
-        request = self.request
-        query = request.GET.get('q', None)
-        if query is not None:
-            post_results = Post.objects.search(query=query)
+        query = self.request.GET.get('q')
+        pollist = Post.objects.all().order_by('-date_posted')
+        if query:
+            pollist = pollist.filter(
+                Q(recipe__icontains=query) |
+                Q(cuisine__icontains=query)
+            )
 
-            qs = sorted(post_results,
-                        key=lambda instance: instance.pk,
-                        reverse=True)
-            self.count = len(qs)
-            return qs
-        return Post.objects.none()
+        return(pollist)
 
 
 class PostListView(ListView):
