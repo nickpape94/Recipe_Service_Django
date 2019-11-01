@@ -1,9 +1,9 @@
 {% extends "recipe_blog/base.html" %}
 {% block content %}
+
+
+
 {% for post in posts %}
-
-
-
 
 
 <div class="grid">
@@ -21,6 +21,10 @@
                 <p class="article-content">{{ post.description }}</p>
             </div>
         </article>
+    </div>
+    {% empty %}
+    <div class="container-fluid">
+        <h3>No posts for "{{ request.GET.q }}"</h3>
     </div>
 </div>
 

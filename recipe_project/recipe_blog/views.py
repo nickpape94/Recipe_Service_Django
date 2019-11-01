@@ -1,5 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from itertools import chain
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -7,7 +10,8 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView)
+    DeleteView
+)
 from .models import Post
 
 
@@ -18,15 +22,26 @@ def home(request):
     return render(request, 'recipe_blog/home.html', context)
 
 
-def search(request):
-    template = 'recipe_blog/user_posts.html'
+class SearchListView(ListView):
+    model = Post
+    template_name = 'recipe_blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+    paginate_by = 5
 
-    query = request.GET.get('q')
+    # def get_template_names(self):
+    #     return ['recipe_blog/post_list.html']
 
-    results = Post.objects.filter(
-        Q(recipe__icontains=query) | Q(description__icontains=query))
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        pollist = Post.objects.all().order_by('-date_posted')
+        if query:
+            pollist = pollist.filter(
+                Q(recipe__icontains=query) |
+                Q(cuisine__icontains=query)
+            )
 
-    return render(request, template)
+        return(pollist)
 
 
 class PostListView(ListView):
@@ -55,7 +70,8 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['recipe', 'description']
+    fields = ['image', 'recipe', 'description',
+              'cuisine', 'ingredients', 'method']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -64,7 +80,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['recipe', 'description']
+    fields = ['image', 'recipe', 'description',
+              'cuisine', 'ingredients', 'method']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

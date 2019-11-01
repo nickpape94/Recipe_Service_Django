@@ -4,6 +4,12 @@
 
 <head>
 
+  <style>
+    pre:first-line {
+      line-height: 0;
+    }
+  </style>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,6 +30,7 @@
   <title>Recipe Blog</title>
   {% endif %}
 </head>
+
 
 <body>
 
@@ -50,10 +57,13 @@
             </div>
 
           </div> -->
+
+
         <div class="col-sm-6 col-sm-offset-3">
-          <form method='GET' action="{% url 'search' %}">
-            <input type="text" name='q' placeholder="Search recipe or user..." value="{{ request.GET.q }}">
-            <input type='submit' value='Search' />
+          <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+            <input class="form-control mr-sm-2" size="30" type="search" name='q' value='{{ request.GET.q }}'
+              placeholder="Search recipe or cuisine..." aria-label="Search">
+            <button class="btn btn-success my-1 my-sm-0" type="submit">Search</button>
           </form>
         </div>
 

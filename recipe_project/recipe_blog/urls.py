@@ -1,5 +1,6 @@
 from django.urls import path
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from .views import (PostListView,
                     PostDetailView,
@@ -7,12 +8,13 @@ from .views import (PostListView,
                     PostUpdateView,
                     PostDeleteView,
                     UserPostListView,
-                    search)
+
+                    SearchListView)
 from . import views
 
 urlpatterns = [
     path('', PostListView.as_view(), name="recipe-blog-home"),
-    path('results/$', search, name="search"),
+    path('search/', SearchListView.as_view(), name="search"),
     path('user/<str:username>', UserPostListView.as_view(), name="user-posts"),
     path('post/<int:pk>/', PostDetailView.as_view(), name="post-detail"),
     path('post/new/', PostCreateView.as_view(), name='post-create'),

@@ -83,7 +83,24 @@ body {
     font-size: 2.5rem;
   }
 
-  #home {
-    width: 20px;
-    height: 20px;
+  .search-bar{
+    max-width: 500px;
+    width: 100%;
   }
+
+  #home {
+    width: 200px;
+    height: 200px;
+  }
+
+  #article {
+    width: auto;
+    height: auto;
+  }
+
+    
+  #NonOverflow {
+    
+    overflow: auto;
+}  
+  
