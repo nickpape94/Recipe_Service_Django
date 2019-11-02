@@ -29,9 +29,6 @@ class SearchListView(ListView):
     ordering = ['-date_posted']
     paginate_by = 5
 
-    # def get_template_names(self):
-    #     return ['recipe_blog/post_list.html']
-
     def get_queryset(self):
         query = self.request.GET.get('q')
         pollist = Post.objects.all().order_by('-date_posted')
