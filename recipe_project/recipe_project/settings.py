@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'recipe_blog.apps.RecipeBlogConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'django_nose',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,3 +143,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+
+# Tests/code coverage
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=recipe_blog, users',
+    '--cover-html'
+]
