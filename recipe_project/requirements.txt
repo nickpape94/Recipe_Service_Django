@@ -3,7 +3,7 @@ autopep8==1.4.4
 cffi==1.13.0
 colorama==0.4.1
 coverage==4.5.4
-cryptography==2.8
+cryptography==3.2
 Django==2.2.6
 django-crispy-forms==1.8.0
 django-nose==1.4.6
