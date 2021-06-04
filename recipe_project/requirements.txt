@@ -4,7 +4,7 @@ cffi==1.13.0
 colorama==0.4.1
 coverage==4.5.4
 cryptography==2.8
-Django==2.2.6
+Django==2.2.21
 django-crispy-forms==1.8.0
 django-nose==1.4.6
 django-rest-knox==4.1.0
